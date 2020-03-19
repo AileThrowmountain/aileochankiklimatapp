@@ -521,12 +521,14 @@ namespace AnkiOchAilesKlimatAPP.Repositories
 
                         while (reader.Read())
                         {
+
+                            var baseCategoryId = reader["basecategory_id"];//tilldelar basecategori en variabel
                             category = new Category
                             {
 
                                 Id = (int)reader["id"],
                                 Name = (string)reader["name"],
-                                BaseCategoryId = (int)reader["basecategory_id"],
+                                BaseCategoryId = (baseCategoryId == DBNull.Value) ? 0 : (int)baseCategoryId, // castar om så att inten får vara null, annars är den en int.
                                 UnitId = (int)reader["unit_id"]
 
                             };

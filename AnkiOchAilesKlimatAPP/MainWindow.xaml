@@ -16,16 +16,16 @@
         <Label x:Name="label" Content="REGISTRERA/ÄNDRA OBSERVATION" FontSize="15" FontFamily="tahoma" HorizontalAlignment="Left" Margin="18,286,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="comboBoxCountry" HorizontalAlignment="Left" Margin="10,345,0,0" VerticalAlignment="Top" Width="200"/>
         <Label x:Name="labelCountry" Content="Välj land*" HorizontalAlignment="Left" Margin="12,319,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="comboBoxArea" HorizontalAlignment="Left" Margin="12,402,0,0" VerticalAlignment="Top" Width="200"/>
+        <ComboBox x:Name="comboBoxArea" HorizontalAlignment="Left" Margin="12,402,0,0" VerticalAlignment="Top" Width="198"/>
         <Label x:Name="labelArea" Content="Område*" HorizontalAlignment="Left" Margin="10,376,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="textBxLatitude" HorizontalAlignment="Left" Margin="12,477,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
         <TextBox x:Name="textBxLongitude" HorizontalAlignment="Left" Margin="116,477,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
         <Label x:Name="labelLatitude" Content="Latitud" HorizontalAlignment="Left" Margin="12,446,0,0" VerticalAlignment="Top"/>
         <Label x:Name="labelLongitude" Content="Longitud" HorizontalAlignment="Left" Margin="116,446,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="comboBoxCategory" HorizontalAlignment="Left" Margin="244,345,0,0" VerticalAlignment="Top" Width="156"/>
-        <ComboBox x:Name="comboBoxSubCategory" HorizontalAlignment="Left" Margin="247,402,0,0" VerticalAlignment="Top" Width="156"/>
-        <Label x:Name="labelCategory" Content="Kategori*" HorizontalAlignment="Left" Margin="244,319,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.224,-0.144"/>
-        <Label x:Name="labelSubCategory" Content="Typ*" HorizontalAlignment="Left" Margin="247,376,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.38,2.592"/>
+        <ComboBox x:Name="comboBoxCategory" HorizontalAlignment="Left" Margin="244,345,0,0" VerticalAlignment="Top" Width="156" SelectionChanged="comboBoxCategory_SelectionChanged"/>
+        <ComboBox x:Name="comboBoxSubCategory" HorizontalAlignment="Left" Margin="244,402,0,0" VerticalAlignment="Top" Width="156" SelectionChanged="comboBoxSubCategory_SelectionChanged"/>
+        <Label x:Name="labelHeadCategory" Content="Huvudkategori*" HorizontalAlignment="Left" Margin="244,319,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.224,-0.144"/>
+        <Label x:Name="labelSubCategory" Content="Underkategori*" HorizontalAlignment="Left" Margin="247,376,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.38,2.592"/>
         <ListBox x:Name="listBoxObservers" Margin="244,36,398,317"/>
         <Label x:Name="labelObservers" Content="Observatörer" HorizontalAlignment="Left" Margin="290,10,0,0" VerticalAlignment="Top"/>
         <ListBox x:Name="listBoxObservation" Margin="443,36,199,317"/>
@@ -34,14 +34,16 @@
         <TextBox x:Name="textBoxDate" HorizontalAlignment="Left" Margin="244,477,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="156"/>
         <Label x:Name="labelDate" Content="Annat datum (YYYY-MM-DD)" FontStyle="Italic" HorizontalAlignment="Left" Margin="244,451,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="checkBoxToday" Content="Dagens datum" HorizontalAlignment="Left" Margin="244,434,0,0" VerticalAlignment="Top" Height="21" Width="103"/>
-        <Button x:Name="buttonRegisterObservation" Content="Lägg till" HorizontalAlignment="Left" Margin="427,468,0,0" VerticalAlignment="Top" Height="27" Width="120"/>
+        <Button x:Name="buttonRegisterObservation" Content="Lägg till" HorizontalAlignment="Left" Margin="427,468,0,0" VerticalAlignment="Top" Height="27" Width="120" Click="buttonRegisterObservation_Click"/>
         <Button x:Name="buttonDeleteObservation" Content="Radera observation" HorizontalAlignment="Left" Margin="444,241,0,0" VerticalAlignment="Top" Width="170"/>
         <Button x:Name="buttonDeleteObserver" Content="Radera observatör" HorizontalAlignment="Left" Margin="244,241,0,0" VerticalAlignment="Top" Width="171" Click="buttonDeleteObserver_Click"/>
         <Button x:Name="buttonChange" Content="Ändra" HorizontalAlignment="Left" Margin="636,183,0,0" VerticalAlignment="Top" Height="29" Width="142"/>
         <Label x:Name="labelInfo" Content="Information" HorizontalAlignment="Left" Margin="636,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBxValues" HorizontalAlignment="Left" Margin="427,398,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="26"/>
+        <TextBox x:Name="textBxValues" HorizontalAlignment="Left" Margin="427,402,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="22"/>
         <Label x:Name="labelValues" Content="Antal" HorizontalAlignment="Left" Margin="427,371,0,0" VerticalAlignment="Top"/>
         <Button x:Name="buttonSendObservation" Content="Spara" FontSize="25" HorizontalAlignment="Left" Margin="634,482,0,0" VerticalAlignment="Top" Height="40" Width="142"/>
+        <ComboBox x:Name="comboBoxType" HorizontalAlignment="Left" Margin="427,344,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="labelType" Content="Typ*" HorizontalAlignment="Left" Margin="427,313,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

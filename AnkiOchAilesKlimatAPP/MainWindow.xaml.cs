@@ -24,14 +24,18 @@ namespace AnkiOchAilesKlimatAPP
     {
 
         Observer selectedObserver;
+        Category selectedCategory;
+        Category selectedSubCategory;
+
+
         public MainWindow()
         {
             InitializeComponent();
             listBoxObservers.ItemsSource = null;
             listBoxObservers.ItemsSource = GetObservers();
             comboBoxCountry.ItemsSource = GetCountries();
-
-            //ska komma upp  när man valt land // comboBoxArea.ItemsSource = GetAreas();
+            comboBoxCategory.ItemsSource = GetMainCategories(GetCategories());
+     
         }
 
         private void regButton_Click(object sender, RoutedEventArgs e)
@@ -46,7 +50,41 @@ namespace AnkiOchAilesKlimatAPP
             UpdateObserverList();
 
         }
+        #region MAINCATEGORYMETOD
+        public List<Category> GetMainCategories(IEnumerable<Category> categories)
+        {
+            List<Category> mainCategories = new List<Category>();
 
+            foreach (var item in categories)
+            {
+                if (item.BaseCategoryId == 0)
+                {
+                    mainCategories.Add(item);
+                }
+            }
+            return mainCategories;
+        }
+        #endregion
+
+        #region SUBCATEGORY
+        public List<Category> GetSubCategories(IEnumerable<Category> categories, int mainCategory)
+        {
+            List<Category> subCategories = new List<Category>();
+
+            foreach (var item in categories)
+            {
+                if (item.BaseCategoryId == mainCategory)
+                {
+                    subCategories.Add(item);
+                }
+            }
+            return subCategories;
+        }
+        #endregion
+
+        #region TYPECATEGORY
+
+        #endregion
         public void UpdateObserverList() //uppdaterar Listboxen med observatörer
         {
             listBoxObservers.ItemsSource = null;
@@ -60,6 +98,24 @@ namespace AnkiOchAilesKlimatAPP
             DeleteObserver(selectedObserver.Id);
             UpdateObserverList();
 
+        }
+
+        private void buttonRegisterObservation_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void comboBoxCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedCategory = comboBoxCategory.SelectedItem as Category;
+            comboBoxSubCategory.ItemsSource = GetSubCategories(GetCategories(), selectedCategory.Id);
+        }
+
+        private void comboBoxSubCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedCategory = comboBoxCategory.SelectedItem as Category;
+            selectedSubCategory = comboBoxSubCategory.SelectedItem as Category;
+            comboBoxType.ItemsSource = GetSubCategories(GetCategories(), selectedSubCategory.Id);
         }
     }
 }
