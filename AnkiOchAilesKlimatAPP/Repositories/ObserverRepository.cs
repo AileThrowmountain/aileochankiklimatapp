@@ -37,7 +37,7 @@ namespace AnkiOchAilesKlimatAPP.Repositories
 
         public static int AddObservation(Observation observation)
         {
-            string stmt = "INSERT INTO observation(obs_date, observer_id, geolocation_id) values(@obs_date, @observer_id, geolocation_id) returning id";
+            string stmt = "INSERT INTO observation(obs_date) values(@obs_date) returning id";
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
@@ -45,8 +45,6 @@ namespace AnkiOchAilesKlimatAPP.Repositories
                 {
                     conn.Open();
                     command.Parameters.AddWithValue("obs_date", observation.Date);
-                    command.Parameters.AddWithValue("observer_id", observation.ObserverId);
-                    command.Parameters.AddWithValue("geolocation_id", observation.GeolocationId);
                     int id = (int)command.ExecuteScalar();
                     observation.Id = id;
                     return id;
@@ -55,6 +53,47 @@ namespace AnkiOchAilesKlimatAPP.Repositories
         }
 
         //--------------------------OBSERVATION-----------------------------//
+
+        //--------------------------GEOLOCATION-----------------------------//
+        public static int AddGeolocation(Geolocation geolocation)
+        {
+            string stmt = "INSERT INTO geolocation(latitude, longitude) values(@latitude, @longitude) returning id";
+
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                using (var command = new NpgsqlCommand(stmt, conn))
+                {
+                    conn.Open();
+                    command.Parameters.AddWithValue("latitude", geolocation.Latitude);
+                    command.Parameters.AddWithValue("longitude", geolocation.Longitude);
+                    int id = (int)command.ExecuteScalar();
+                    geolocation.Id = id;
+                    return id;
+                }
+            }
+        }
+        //--------------------------GEOLOCATION-----------------------------//
+
+        //--------------------------MEASUREMENT-----------------------------//
+        public static int AddMeasurement(Measurement measurement)
+        {
+            string stmt = "INSERT INTO measurement(value) values(@value) returning id";
+
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                using (var command = new NpgsqlCommand(stmt, conn))
+                {
+                    conn.Open();
+                    command.Parameters.AddWithValue("value", measurement.Value);
+                    int id = (int)command.ExecuteScalar();
+                    measurement.Id = id;
+                    return id;
+                }
+            }
+        }
+
+        //--------------------------MEASUREMENT-----------------------------//
+
 
         #endregion
         #region READ
@@ -499,11 +538,49 @@ namespace AnkiOchAilesKlimatAPP.Repositories
         }
         //--------------------------CATEGORY-----------------------------//
 
+        //--------------------------UNIT-----------------------------//
+        public static Unit GetUnit(int id)
+        {
+            string stmt = "select id, type, abbreviation, from unit where id=@id";
+
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                Unit unit= null;
+                conn.Open();
+                using (var command = new NpgsqlCommand(stmt, conn))
+                {
+                    command.Parameters.AddWithValue("id", id);
+                    using (var reader = command.ExecuteReader())
+                    {
+
+                        while (reader.Read())
+                        {
+                            unit = new Unit
+                            {
+
+                                Id = (int)reader["id"],
+                                Type = (string)reader["type"],
+                                Abbreviation = (string)reader["abbreviation"],
+                            };
+
+                        }
+
+                    }
+                }
+                return unit;
+
+            }
+
+        }
+
+
+        //--------------------------UNIT-----------------------------//
 
 
         #endregion
         #region UPDATE
 
+        //--------------------------OBSERVER-----------------------------//
         public static void SaveObserver(Observer observer)
         {
             string stmt = "UPDATE observer set firstname = @firstname, @lastname where id=@id";
@@ -515,12 +592,69 @@ namespace AnkiOchAilesKlimatAPP.Repositories
                     conn.Open();
                     command.Parameters.AddWithValue("firstname", observer.FirstName);
                     command.Parameters.AddWithValue("lastname", observer.LastName);
-                    command.Parameters.AddWithValue("id", observer.Id);
                     command.ExecuteScalar();
 
                 }
             }
         }
+
+        //--------------------------OBSERVER-----------------------------//
+
+        //--------------------------OBSERVATION-----------------------------//
+        public static void SaveObservation(Observation observation)
+        {
+            string stmt = "UPDATE observation set obs_date = @obs_date where id=@id";
+
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                using (var command = new NpgsqlCommand(stmt, conn))
+                {
+                    conn.Open();
+                    command.Parameters.AddWithValue("obs_date", observation.Date);
+                    command.ExecuteScalar();
+
+                }
+            }
+        }
+
+        //--------------------------OBSERVATION-----------------------------//
+
+        //--------------------------GEOLOCATION-----------------------------//
+        public static void SaveGeolocation(Geolocation geolocation)
+        {
+            string stmt = "UPDATE geolocation set latitude = @latitude, longitude = @longitude where id=@id";
+
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                using (var command = new NpgsqlCommand(stmt, conn))
+                {
+                    conn.Open();
+                    command.Parameters.AddWithValue("latitude", geolocation.Latitude);
+                    command.Parameters.AddWithValue("longitude", geolocation.Longitude);
+                    command.ExecuteScalar();
+
+                }
+            }
+        }
+        //--------------------------GEOLOCATION-----------------------------//
+
+        //--------------------------MEASUREMENT-----------------------------//
+        public static void SaveObservation(Measurement measurement)
+        {
+            string stmt = "UPDATE measurement set value = @value where id=@id";
+
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                using (var command = new NpgsqlCommand(stmt, conn))
+                {
+                    conn.Open();
+                    command.Parameters.AddWithValue("value", measurement.Value);
+                    command.ExecuteScalar();
+
+                }
+            }
+        }
+        //--------------------------MEASUREMENT-----------------------------//
         #endregion
         #region DELETE
         public static void DeleteObserver(int id)
