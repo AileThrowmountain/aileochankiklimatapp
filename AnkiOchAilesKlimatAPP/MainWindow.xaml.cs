@@ -25,29 +25,32 @@ namespace AnkiOchAilesKlimatAPP
         public MainWindow()
         {
             InitializeComponent();
+            listBoxObservers.ItemsSource = null;
+            listBoxObservers.ItemsSource = GetObservers();
+
+
         }
 
         private void regButton_Click(object sender, RoutedEventArgs e)
         {
-            //var observer = GetObserver(1);
-            //var observers = GetObservers();
-           
-            //var observer = new Observer
-            //{
-            //    FirstName = "Olle",
-            //    LastName = "Andersson"
-
-            //};
-            //AddObserver(observer);
-            //DeleteObserver(1);
-            var observation = new Observation
+            var observer = new Observer
             {
-                Date = DateTime.Now,
-                ObserverId = 1,
-                GeolocationId = 1
+                FirstName = textBxRegisterFirstname.Text,
+                LastName = textBxRegisterLastname.Text
 
             };
-            AddObservation(observation);
+            AddObserver(observer);
+            UpdateObserverList();
+
         }
-    }
+
+        public void UpdateObserverList() //uppdaterar Listboxen med observatörer
+        {
+            listBoxObservers.ItemsSource = null;
+            listBoxObservers.ItemsSource = GetObservers();
+        }
+
+          
+
+}
 }

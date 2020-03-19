@@ -8,7 +8,7 @@
         Title="Anki och Ailes Klimat Applikation" Height="559" Width="813">
     <Grid>
         <Button x:Name="regButton" Content="Registrera" HorizontalAlignment="Left" Margin="10,173,0,0" VerticalAlignment="Top" Height="29" Width="144" Click="regButton_Click"/>
-        <TextBox x:Name="txtBxRegisterFirstname" HorizontalAlignment="Left" Margin="10,62,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144" Height="26"/>
+        <TextBox x:Name="textBxRegisterFirstname" HorizontalAlignment="Left" Margin="10,62,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144" Height="26"/>
         <TextBox x:Name="textBxRegisterLastname" HorizontalAlignment="Left" Margin="10,124,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144" Height="26"/>
         <Label x:Name="labelFirstname" Content="Förnamn" HorizontalAlignment="Left" Margin="12,36,0,0" VerticalAlignment="Top"/>
         <Label x:Name="labelLastname" Content="Efternamn" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top"/>
@@ -34,13 +34,14 @@
         <TextBox x:Name="textBoxDate" HorizontalAlignment="Left" Margin="244,477,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="156"/>
         <Label x:Name="labelDate" Content="Annat datum (YYYY-MM-DD)" FontStyle="Italic" HorizontalAlignment="Left" Margin="244,451,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="checkBoxToday" Content="Dagens datum" HorizontalAlignment="Left" Margin="244,434,0,0" VerticalAlignment="Top" Height="21" Width="103"/>
-        <Button x:Name="buttonRegisterObservation" Content="Spara" HorizontalAlignment="Left" Margin="427,468,0,0" VerticalAlignment="Top" Height="27" Width="120"/>
+        <Button x:Name="buttonRegisterObservation" Content="Lägg till" HorizontalAlignment="Left" Margin="427,468,0,0" VerticalAlignment="Top" Height="27" Width="120"/>
         <Button x:Name="buttonDeleteObservation" Content="Radera observation" HorizontalAlignment="Left" Margin="444,241,0,0" VerticalAlignment="Top" Width="170"/>
         <Button x:Name="buttonDeleteObserver" Content="Radera observatör" HorizontalAlignment="Left" Margin="244,241,0,0" VerticalAlignment="Top" Width="171"/>
         <Button x:Name="buttonChange" Content="Ändra" HorizontalAlignment="Left" Margin="636,183,0,0" VerticalAlignment="Top" Height="29" Width="142"/>
         <Label x:Name="labelInfo" Content="Information" HorizontalAlignment="Left" Margin="636,10,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="textBxValues" HorizontalAlignment="Left" Margin="427,398,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="26"/>
         <Label x:Name="labelValues" Content="Antal" HorizontalAlignment="Left" Margin="427,371,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="buttonSendObservation" Content="Spara" FontSize="25" HorizontalAlignment="Left" Margin="636,477,0,0" VerticalAlignment="Top" Height="42" Width="142"/>
 
     </Grid>
 </Window>

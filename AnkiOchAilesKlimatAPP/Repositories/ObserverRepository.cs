@@ -164,6 +164,9 @@ namespace AnkiOchAilesKlimatAPP.Repositories
 
                     }
                 }
+                
+
+
                 return observers;
             }
         }
