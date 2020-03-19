@@ -22,13 +22,16 @@ namespace AnkiOchAilesKlimatAPP
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        Observer selectedObserver;
         public MainWindow()
         {
             InitializeComponent();
             listBoxObservers.ItemsSource = null;
             listBoxObservers.ItemsSource = GetObservers();
+            comboBoxCountry.ItemsSource = GetCountries();
 
-
+            //ska komma upp  när man valt land // comboBoxArea.ItemsSource = GetAreas();
         }
 
         private void regButton_Click(object sender, RoutedEventArgs e)
@@ -50,7 +53,13 @@ namespace AnkiOchAilesKlimatAPP
             listBoxObservers.ItemsSource = GetObservers();
         }
 
-          
+        private void buttonDeleteObserver_Click(object sender, RoutedEventArgs e)
+        {
 
-}
+            selectedObserver = listBoxObservers.SelectedItem as Observer;
+            DeleteObserver(selectedObserver.Id);
+            UpdateObserverList();
+
+        }
+    }
 }

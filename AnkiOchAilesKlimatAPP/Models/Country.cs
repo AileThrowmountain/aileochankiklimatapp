@@ -8,6 +8,11 @@ namespace AnkiOchAilesKlimatAPP.Models
     {
         public int Id { get; set; }
         public string CountryName { get; set; }
-        
+
+
+        public override string ToString() //ändrat strängens utseende med en basmetod 
+        {
+            return $"{CountryName}";
+        }
     }
 }

@@ -357,14 +357,14 @@ namespace AnkiOchAilesKlimatAPP.Repositories
 
         }
 
-        public static IEnumerable<Country> GetCountrys()
+        public static IEnumerable<Country> GetCountries()
         {
             string stmt = "select id, country from country";
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
                 Country country = null;
-                List<Country> countrys = new List<Country>();
+                List<Country> countries = new List<Country>();
                 conn.Open();
 
                 using (var command = new NpgsqlCommand(stmt, conn))
@@ -381,13 +381,13 @@ namespace AnkiOchAilesKlimatAPP.Repositories
                                 CountryName = (string)reader["country"],
                            
                             };
-                            countrys.Add(country);
+                            countries.Add(country);
 
                         }
 
                     }
                 }
-                return countrys;
+                return countries;
             }
         }
 

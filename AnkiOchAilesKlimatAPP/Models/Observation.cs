@@ -10,5 +10,11 @@ namespace AnkiOchAilesKlimatAPP.Models
         public DateTime Date { get; set; }
         public int ObserverId { get; set; }
         public int GeolocationId {get; set; }
+
+
+        public override string ToString() //ändrat strängens utseende med en basmetod 
+        {
+            return $"{Date}";
+        }
     }
 }
