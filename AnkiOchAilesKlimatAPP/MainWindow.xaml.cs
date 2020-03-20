@@ -159,10 +159,17 @@ namespace AnkiOchAilesKlimatAPP
 
         private void buttonRegisterObservation_Click(object sender, RoutedEventArgs e)
         {
+            var observer = new Observer
+            {
+                FirstName = textBxRegisterFirstname.Text,
+                LastName = textBxRegisterLastname.Text
 
-            
+            };
+            AddObserver(observer);
+            UpdateObserverList();
 
-         
+
+
         }
 
         private void checkBoxToday_IsMouseCapturedChanged(object sender, DependencyPropertyChangedEventArgs e)
