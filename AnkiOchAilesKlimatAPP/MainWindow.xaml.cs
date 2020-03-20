@@ -26,6 +26,8 @@ namespace AnkiOchAilesKlimatAPP
         Observer selectedObserver;
         Category selectedCategory;
         Category selectedSubCategory;
+        Country selectedCountry;
+        Geolocation geolocation;
 
 
         public MainWindow()
@@ -48,6 +50,7 @@ namespace AnkiOchAilesKlimatAPP
             };
             AddObserver(observer);
             UpdateObserverList();
+
 
         }
         #region MAINCATEGORYMETOD
@@ -82,7 +85,42 @@ namespace AnkiOchAilesKlimatAPP
         }
         #endregion
 
-        #region TYPECATEGORY
+        #region GETCOUNTRYAREA
+
+        public List<Area> GetCountryArea(IEnumerable<Area> areas, int countryId)
+        {
+            List<Area> getArea = new List<Area>();
+
+            foreach (var item in areas)
+            {
+                if (item.CountryId == countryId)
+                {
+                    getArea.Add(item);
+                }
+            }
+            return getArea;
+        }
+
+        #endregion
+
+        #region DELETEOBSERVER
+        //public void ObserverDeletePossible(IEnumerable<Observer> observers, int observerId)
+        //{
+        //    foreach (var observer in observers)
+        //    {
+        //        if (observer.Id == observerId)
+        //        {
+        //            MessageBox.Show($"Denna observatören har en eller flera registrerade observationer. Kan ej raderas.")
+        //        }
+        //        else
+        //        {
+
+        //        }
+        //    }
+        
+        
+        //}
+
 
         #endregion
         public void UpdateObserverList() //uppdaterar Listboxen med observatörer
@@ -100,11 +138,6 @@ namespace AnkiOchAilesKlimatAPP
 
         }
 
-        private void buttonRegisterObservation_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void comboBoxCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedCategory = comboBoxCategory.SelectedItem as Category;
@@ -115,7 +148,36 @@ namespace AnkiOchAilesKlimatAPP
         {
             selectedCategory = comboBoxCategory.SelectedItem as Category;
             selectedSubCategory = comboBoxSubCategory.SelectedItem as Category;
-            comboBoxType.ItemsSource = GetSubCategories(GetCategories(), selectedSubCategory.Id);
+            comboBoxType.ItemsSource = GetSubCategories(GetCategories(), selectedSubCategory.Id); 
+        }
+
+        private void comboBoxCountry_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedCountry = comboBoxCountry.SelectedItem as Country;
+            comboBoxArea.ItemsSource = GetCountryArea(GetAreas(), selectedCountry.Id);
+        }
+
+        private void buttonRegisterObservation_Click(object sender, RoutedEventArgs e)
+        {
+
+            
+
+         
+        }
+
+        private void checkBoxToday_IsMouseCapturedChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (checkBoxToday.IsChecked == true)
+            {
+                textBoxDate.IsEnabled = true;
+            }
+            else
+            {
+                textBoxDate.IsEnabled = false;
+            }
         }
     }
+           
+
 }
+

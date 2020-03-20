@@ -135,7 +135,7 @@ namespace AnkiOchAilesKlimatAPP.Repositories
 
         public static IEnumerable<Observer> GetObservers()
         {
-            string stmt = "select id, firstname, lastname from observer";
+            string stmt = "select id, firstname, lastname from observer order by lastname asc";
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
@@ -267,8 +267,8 @@ namespace AnkiOchAilesKlimatAPP.Repositories
                             {
 
                                 Id = (int)reader["id"],
-                                Latitude = (double)reader["latitude"],
-                                Longitude = (double)reader["longitude"],
+                                Latitude = (float)reader["latitude"],
+                                Longitude = (float)reader["longitude"],
                                 AreaId = (int)reader["area_id"]
 
                             };
