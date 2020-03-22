@@ -26,8 +26,12 @@ namespace AnkiOchAilesKlimatAPP
         Observer selectedObserver;
         Category selectedCategory;
         Category selectedSubCategory;
+        Category selectedType;
+        Measurement measurementValue;
         Country selectedCountry;
         Geolocation geolocation;
+        Area selectedArea;
+
 
 
         public MainWindow()
@@ -37,7 +41,7 @@ namespace AnkiOchAilesKlimatAPP
             listBoxObservers.ItemsSource = GetObservers();
             comboBoxCountry.ItemsSource = GetCountries();
             comboBoxCategory.ItemsSource = GetMainCategories(GetCategories());
-     
+
         }
 
         private void regButton_Click(object sender, RoutedEventArgs e)
@@ -104,6 +108,7 @@ namespace AnkiOchAilesKlimatAPP
         #endregion
 
         #region DELETEOBSERVER
+
         //public void ObserverDeletePossible(IEnumerable<Observer> observers, int observerId)
         //{
         //    foreach (var observer in observers)
@@ -114,12 +119,12 @@ namespace AnkiOchAilesKlimatAPP
         //        }
         //        else
         //        {
-
         //        }
         //    }
-        
-        
+        //
         //}
+
+
 
 
         #endregion
@@ -148,7 +153,7 @@ namespace AnkiOchAilesKlimatAPP
         {
             selectedCategory = comboBoxCategory.SelectedItem as Category;
             selectedSubCategory = comboBoxSubCategory.SelectedItem as Category;
-            comboBoxType.ItemsSource = GetSubCategories(GetCategories(), selectedSubCategory.Id); 
+            comboBoxType.ItemsSource = GetSubCategories(GetCategories(), selectedSubCategory.Id);
         }
 
         private void comboBoxCountry_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -159,14 +164,52 @@ namespace AnkiOchAilesKlimatAPP
 
         private void buttonRegisterObservation_Click(object sender, RoutedEventArgs e)
         {
-            var observer = new Observer
+            
+            var subCategorin = comboBoxSubCategory.SelectedItem as Category;
+            var typeCategorin = comboBoxType.SelectedItem as Category;
+            var chosenArea = comboBoxArea.SelectedItem as Area;
+            Category theChosenOneCategory;
+
+            if (typeCategorin == null)
             {
-                FirstName = textBxRegisterFirstname.Text,
-                LastName = textBxRegisterLastname.Text
+                theChosenOneCategory = typeCategorin;
+            }
+            else
+            {
+                theChosenOneCategory = subCategorin;
+            }
+
+            var geoLoc = new Geolocation
+            {
+                Latitude = float.Parse(textBxLatitude.Text),
+                Longitude = float.Parse(textBxLongitude.Text),
+                AreaId = chosenArea.Id
+            };
+
+            var geolocationId = AddGeolocation(geoLoc);
+            // Create new geolocation, 
+
+            var newObservation = new Observation()
+            {
+                Date = checkBoxToday.IsChecked.GetValueOrDefault() ? DateTime.Now : observationDatePicker.SelectedDate.GetValueOrDefault(), //om checkboxen är checkad så är det dagens datum, annars det som vaäljs
+                ObserverId = selectedObserver.Id,
+                GeolocationId = geolocationId
+            };
+
+            var observationId = AddObservation(newObservation);
+
+
+
+            var value = new Measurement
+            {
+                Value = double.Parse(textBxValues.Text),
+                ObservationId = observationId,
+                CategoryId = theChosenOneCategory.Id
 
             };
-            AddObserver(observer);
-            UpdateObserverList();
+            AddMeasurement(value);
+
+            //UpdateObserverationList(); // har ingen sån metod än
 
 
 
@@ -184,7 +227,7 @@ namespace AnkiOchAilesKlimatAPP
             }
         }
     }
-           
+
 
 }
 
