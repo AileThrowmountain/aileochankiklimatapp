@@ -164,7 +164,7 @@ namespace AnkiOchAilesKlimatAPP
 
         private void buttonRegisterObservation_Click(object sender, RoutedEventArgs e)
         {
-            
+
             var subCategorin = comboBoxSubCategory.SelectedItem as Category;
             var typeCategorin = comboBoxType.SelectedItem as Category;
             var chosenArea = comboBoxArea.SelectedItem as Area;
@@ -179,26 +179,25 @@ namespace AnkiOchAilesKlimatAPP
                 theChosenOneCategory = subCategorin;
             }
 
-            var geoLoc = new Geolocation
+            var geoLoc = new Geolocation //fixa imorgon måndag
             {
-                Latitude = float.Parse(textBxLatitude.Text),
-                Longitude = float.Parse(textBxLongitude.Text),
+                Latitude = 0,//float.Parse(textBxLatitude.Text),
+                Longitude = 0,//float.Parse(textBxLongitude.Text),
                 AreaId = chosenArea.Id
             };
 
             var geolocationId = AddGeolocation(geoLoc);
             // Create new geolocation, 
 
-            var newObservation = new Observation()
+            var newObservation = new Observation() //tjorvar fixa imorgon
             {
+
                 Date = checkBoxToday.IsChecked.GetValueOrDefault() ? DateTime.Now : observationDatePicker.SelectedDate.GetValueOrDefault(), //om checkboxen är checkad så är det dagens datum, annars det som vaäljs
                 ObserverId = selectedObserver.Id,
                 GeolocationId = geolocationId
             };
 
             var observationId = AddObservation(newObservation);
-
-
 
             var value = new Measurement
             {
