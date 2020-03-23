@@ -49,7 +49,7 @@ namespace AnkiOchAilesKlimatAPP.Repositories
                     command.Parameters.AddWithValue("geolocation_id", observation.GeolocationId);
 
                     int id = (int)command.ExecuteScalar();
-                    
+
                     return id;
                 }
             }
@@ -169,7 +169,7 @@ namespace AnkiOchAilesKlimatAPP.Repositories
 
                     }
                 }
-                
+
 
 
                 return observers;
@@ -310,7 +310,7 @@ namespace AnkiOchAilesKlimatAPP.Repositories
                             {
 
                                 Id = (int)reader["id"],
-                                Value = (double)reader["value"],
+                                Value = (float)reader["value"],
                                 ObservationId = (int)reader["observation_id"],
                                 CategoryId = (int)reader["category_id"]
 
@@ -324,6 +324,7 @@ namespace AnkiOchAilesKlimatAPP.Repositories
 
             }
         }
+
         //--------------------------MEASUREMENTS-----------------------------//
 
         //--------------------------COUNTRY-----------------------------//
@@ -384,7 +385,7 @@ namespace AnkiOchAilesKlimatAPP.Repositories
 
                                 Id = (int)reader["id"],
                                 CountryName = (string)reader["country"],
-                           
+
                             };
                             countries.Add(country);
 
@@ -403,7 +404,7 @@ namespace AnkiOchAilesKlimatAPP.Repositories
 
         public static Area GetArea(int id)
         {
-            string stmt = "select id, name, country_id from area where id=@id";
+            string stmt = "select id, area_name, country_id from area where id=@id";
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
@@ -421,7 +422,7 @@ namespace AnkiOchAilesKlimatAPP.Repositories
                             {
 
                                 Id = (int)reader["id"],
-                                Name = (string)reader["name"],
+                                Name = (string)reader["area_name"],
                                 CountryId = (int)reader["country_id"]
 
                             };
@@ -437,7 +438,7 @@ namespace AnkiOchAilesKlimatAPP.Repositories
         }
         public static IEnumerable<Area> GetAreas()
         {
-            string stmt = "select id, name, country_id from area";
+            string stmt = "select id, area_name, country_id from area";
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
@@ -456,7 +457,7 @@ namespace AnkiOchAilesKlimatAPP.Repositories
                             {
 
                                 Id = (int)reader["id"],
-                                Name = (string)reader["name"],
+                                Name = (string)reader["area_name"],
                                 CountryId = (int)reader["country_id"]
 
                             };
@@ -528,13 +529,14 @@ namespace AnkiOchAilesKlimatAPP.Repositories
                         {
 
                             var baseCategoryId = reader["basecategory_id"];//tilldelar basecategori en variabel
+                            var unitCategoryId = reader["unit_id"];
                             category = new Category
                             {
 
                                 Id = (int)reader["id"],
                                 Name = (string)reader["name"],
                                 BaseCategoryId = (baseCategoryId == DBNull.Value) ? 0 : (int)baseCategoryId, // castar om så att inten får vara null, annars är den en int.
-                                UnitId = (int)reader["unit_id"]
+                                UnitId = (unitCategoryId == DBNull.Value) ? 0 : (int)reader["unit_id"]
 
                             };
                             categories.Add(category);
@@ -553,9 +555,10 @@ namespace AnkiOchAilesKlimatAPP.Repositories
         {
             string stmt = "select id, type, abbreviation, from unit where id=@id";
 
+
             using (var conn = new NpgsqlConnection(connectionString))
             {
-                Unit unit= null;
+                Unit unit = null;
                 conn.Open();
                 using (var command = new NpgsqlCommand(stmt, conn))
                 {
@@ -585,6 +588,70 @@ namespace AnkiOchAilesKlimatAPP.Repositories
 
 
         //--------------------------UNIT-----------------------------//
+        //--------------------------INFORMATION DISPLAY-----------------------------//
+        public static IEnumerable<InformationDisplay> GetInformation(int observation_id)
+        {
+            string stmt = $"select country.country, area.area_name, geolocation.latitude, geolocation.longitude, category.name, category.basecategory_id, observation.obs_date, measurement.value, unit.type, unit.abbreviation, measurement.id " +
+                $"from observation " +
+                $"inner join observer " +
+                $"on observation.observer_id = observer.id " +
+                $"inner join geolocation " +
+                $"on observation.geolocation_id = geolocation.id " +
+                $"inner join area " +
+                $"on geolocation.area_id = area.id " +
+                $"inner join country " +
+                $"on area.country_id = country.id " +
+                $"inner join measurement " +
+                $"on measurement.observation_id = observation.id " +
+                $"inner join category " +
+                $"on measurement.category_id = category.id " +
+                $"inner join unit " +
+                $"on unit.id = category.unit_id " +
+                $"where observation.id = @observation_id";
+
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                InformationDisplay informationDisplay = null;
+                List<InformationDisplay> informationDisplays = new List<InformationDisplay>();
+                conn.Open();
+                using (var command = new NpgsqlCommand(stmt, conn))
+                {
+                    command.Parameters.AddWithValue("observation_id", observation_id);
+                    using (var reader = command.ExecuteReader())
+                    {
+
+                        while (reader.Read())
+                        {
+                            informationDisplay = new InformationDisplay
+                            {
+                                CountryName = (string)reader["country"],
+                                AreaName = (string)reader["area_name"],
+                                Latitude = (double)reader["latitude"],
+                                Longitude = (double)reader["longitude"],
+                                Category = (string)reader["name"],
+                                BaseCategory = (int)reader["basecategory_id"],
+                                Date = (DateTime)reader["obs_date"],
+                                Value = (double)reader["value"],
+                                Measurement_id = (int)reader["id"],
+                                Abbrevation=(string)reader["abbreviation"],
+                                Type = (string)reader["type"],
+
+                                
+                            };
+                            informationDisplays.Add(informationDisplay);
+
+                        }
+
+                    }
+                }
+                return informationDisplays;
+
+            }
+
+        }
+
+
+
 
 
         #endregion

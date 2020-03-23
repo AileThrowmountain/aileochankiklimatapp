@@ -26,11 +26,10 @@ namespace AnkiOchAilesKlimatAPP
         Observer selectedObserver;
         Category selectedCategory;
         Category selectedSubCategory;
-        Category selectedType;
-        Measurement measurementValue;
         Country selectedCountry;
-        Geolocation geolocation;
-        Area selectedArea;
+        Observation selectedObservation;
+        InformationDisplay selectedInformationDisplay;
+
 
 
 
@@ -128,6 +127,25 @@ namespace AnkiOchAilesKlimatAPP
 
 
         #endregion
+
+
+        #region GETOBSERVATIONDATES
+        public List<Observation> GetObservationDates(IEnumerable<Observation> observations, int observerId)
+        {
+            List<Observation> observationDates = new List<Observation>();
+
+            foreach (var observation in observations)
+            {
+                if (observation.ObserverId == observerId)
+                {
+                    observationDates.Add(observation);
+                }
+            }
+            return observationDates;
+        }
+
+
+        #endregion
         public void UpdateObserverList() //uppdaterar Listboxen med observatörer
         {
             listBoxObservers.ItemsSource = null;
@@ -164,30 +182,42 @@ namespace AnkiOchAilesKlimatAPP
 
         private void buttonRegisterObservation_Click(object sender, RoutedEventArgs e)
         {
-
+            selectedObserver = listBoxObservers.SelectedItem as Observer;
             var subCategorin = comboBoxSubCategory.SelectedItem as Category;
             var typeCategorin = comboBoxType.SelectedItem as Category;
             var chosenArea = comboBoxArea.SelectedItem as Area;
+
             Category theChosenOneCategory;
 
             if (typeCategorin == null)
             {
-                theChosenOneCategory = typeCategorin;
+                theChosenOneCategory = subCategorin;
             }
             else
             {
-                theChosenOneCategory = subCategorin;
+                theChosenOneCategory = typeCategorin;
             }
 
-            var geoLoc = new Geolocation //fixa imorgon måndag
+            if (textBxLatitude.Text == "" || textBxLongitude.Text == "")
             {
-                Latitude = 0,//float.Parse(textBxLatitude.Text),
-                Longitude = 0,//float.Parse(textBxLongitude.Text),
+                textBxLatitude.Text = "0";
+                textBxLongitude.Text = "0";
+            }
+            if (textBxValues.Text == "")
+            {
+                textBxValues.Text = "0";
+            }
+
+            var geoLoc = new Geolocation 
+            {
+                Latitude = float.Parse(textBxLatitude.Text),
+                Longitude = float.Parse(textBxLongitude.Text),
                 AreaId = chosenArea.Id
             };
 
             var geolocationId = AddGeolocation(geoLoc);
             // Create new geolocation, 
+
 
             var newObservation = new Observation() //tjorvar fixa imorgon
             {
@@ -210,20 +240,31 @@ namespace AnkiOchAilesKlimatAPP
 
             //UpdateObserverationList(); // har ingen sån metod än
 
-
-
         }
 
-        private void checkBoxToday_IsMouseCapturedChanged(object sender, DependencyPropertyChangedEventArgs e)
+
+
+
+        private void listBoxObservers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (checkBoxToday.IsChecked == true)
-            {
-                textBoxDate.IsEnabled = true;
-            }
-            else
-            {
-                textBoxDate.IsEnabled = false;
-            }
+            selectedObserver = listBoxObservers.SelectedItem as Observer;
+            listBoxObservation.ItemsSource = null;
+            listBoxObservation.ItemsSource = GetObservationDates(GetObservations(), selectedObserver.Id);
+        }
+
+        private void listBoxObservation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedObservation = listBoxObservation.SelectedItem as Observation;
+            listBoxMeasurements.ItemsSource = null;
+            listBoxMeasurements.ItemsSource = GetInformation(selectedObservation.Id);
+        }
+
+        private void listBoxMeasurements_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedInformationDisplay = listBoxMeasurements.SelectedItem as InformationDisplay;
+            string info = $"{selectedInformationDisplay.CountryName}\n{selectedInformationDisplay.AreaName}\n{selectedInformationDisplay.Latitude}\n{selectedInformationDisplay.Longitude}\n{selectedInformationDisplay.Category}\n{selectedInformationDisplay.Type} {selectedInformationDisplay.Value} {selectedInformationDisplay.Abbrevation}";
+            textBoxInformation.Text = info;
+            textBoxInformation.Text = textBoxInformation.Text.Replace("\n", Environment.NewLine);
         }
     }
 
