@@ -151,6 +151,13 @@ namespace AnkiOchAilesKlimatAPP
             listBoxObservers.ItemsSource = null;
             listBoxObservers.ItemsSource = GetObservers();
         }
+        public void UpdateObservationList() //uppdaterar Listboxen med observatörer
+        {
+            selectedObserver = listBoxObservers.SelectedItem as Observer;
+            listBoxObservation.ItemsSource = null;
+            listBoxObservation.ItemsSource = GetObservationDates(GetObservations(), selectedObserver.Id);
+        }
+
 
         private void buttonDeleteObserver_Click(object sender, RoutedEventArgs e)
         {
@@ -164,6 +171,7 @@ namespace AnkiOchAilesKlimatAPP
         private void comboBoxCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedCategory = comboBoxCategory.SelectedItem as Category;
+            comboBoxSubCategory.ItemsSource = null;
             comboBoxSubCategory.ItemsSource = GetSubCategories(GetCategories(), selectedCategory.Id);
         }
 
@@ -171,7 +179,12 @@ namespace AnkiOchAilesKlimatAPP
         {
             selectedCategory = comboBoxCategory.SelectedItem as Category;
             selectedSubCategory = comboBoxSubCategory.SelectedItem as Category;
-            comboBoxType.ItemsSource = GetSubCategories(GetCategories(), selectedSubCategory.Id); //KRASHAR NÄR MAN VÄLJER EN ANNAN HUVUDKATEGORI
+            if(selectedSubCategory != null)
+            {
+                comboBoxType.ItemsSource = GetSubCategories(GetCategories(), selectedSubCategory.Id);
+            
+             //KRASHAR NÄR MAN VÄLJER EN ANNAN HUVUDKATEGORI
+
 
             //ändra label beroende på vad man väljer
             if (selectedSubCategory.Id == 4 && selectedSubCategory.Id == 6 && selectedSubCategory.Id == 7)
@@ -190,11 +203,7 @@ namespace AnkiOchAilesKlimatAPP
             {
                 labelValues.Content = "Cm";
             }
-            else if (selectedSubCategory.Id >= 1 || selectedSubCategory.Id <=3)
-            {
-                labelValues.Content = "Antal";
             }
-
         }
 
         private void comboBoxCountry_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -239,8 +248,7 @@ namespace AnkiOchAilesKlimatAPP
             };
 
             var geolocationId = AddGeolocation(geoLoc);
-            // Create new geolocation, 
-
+            // Create new geolocation
 
             var newObservation = new Observation() //tjorvar fixa imorgon
             {
@@ -260,6 +268,7 @@ namespace AnkiOchAilesKlimatAPP
 
             };
             AddMeasurement(value);
+            UpdateObservationList();
 
             //UpdateObserverationList(); // har ingen sån metod än
 
@@ -270,9 +279,7 @@ namespace AnkiOchAilesKlimatAPP
 
         private void listBoxObservers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedObserver = listBoxObservers.SelectedItem as Observer;
-            listBoxObservation.ItemsSource = null;
-            listBoxObservation.ItemsSource = GetObservationDates(GetObservations(), selectedObserver.Id);
+            UpdateObservationList();
         }
 
         private void listBoxObservation_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -284,11 +291,26 @@ namespace AnkiOchAilesKlimatAPP
 
         private void listBoxMeasurements_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            UpdateInformation();
+        }
+
+        private void buttonChange_Click(object sender, RoutedEventArgs e)
+        {
+
+            UpdateMeasurement(selectedInformationDisplay.Measurement_id, double.Parse(textBxValues.Text));
+            UpdateInformation();
+        }
+
+       public void UpdateInformation() 
+        {
             selectedInformationDisplay = listBoxMeasurements.SelectedItem as InformationDisplay;
             string info = $"Land: {selectedInformationDisplay.CountryName}\nOmråde: {selectedInformationDisplay.AreaName}\nLatitud: {selectedInformationDisplay.Latitude}\nLongitud: {selectedInformationDisplay.Longitude}\nKategori: {selectedInformationDisplay.Category}\nMätvärde: {selectedInformationDisplay.Type} {selectedInformationDisplay.Value} {selectedInformationDisplay.Abbrevation}";
             textBoxInformation.Text = info;
             textBoxInformation.Text = textBoxInformation.Text.Replace("\n", Environment.NewLine);
+
         }
+
+
     }
 
 

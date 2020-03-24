@@ -11,6 +11,11 @@ namespace AnkiOchAilesKlimatAPP.Repositories
     public static class ObserverRepository
     {
         private static string connectionString = ConfigurationManager.ConnectionStrings["dbAnkiochAile"].ConnectionString;
+
+        #region REFUSETRANSACTION
+
+
+        #endregion  
         #region CREATE
 
         //--------------------------OBSERVER-----------------------------//
@@ -716,7 +721,7 @@ namespace AnkiOchAilesKlimatAPP.Repositories
         //--------------------------GEOLOCATION-----------------------------//
 
         //--------------------------MEASUREMENT-----------------------------//
-        public static void SaveObservation(Measurement measurement)
+        public static void UpdateMeasurement(int measurementId, double value)
         {
             string stmt = "UPDATE measurement set value = @value where id=@id";
 
@@ -725,7 +730,8 @@ namespace AnkiOchAilesKlimatAPP.Repositories
                 using (var command = new NpgsqlCommand(stmt, conn))
                 {
                     conn.Open();
-                    command.Parameters.AddWithValue("value", measurement.Value);
+                    command.Parameters.AddWithValue("id", measurementId);
+                    command.Parameters.AddWithValue("value", value);
                     command.ExecuteScalar();
 
                 }
