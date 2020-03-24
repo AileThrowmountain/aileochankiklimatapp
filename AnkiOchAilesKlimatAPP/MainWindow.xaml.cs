@@ -171,7 +171,30 @@ namespace AnkiOchAilesKlimatAPP
         {
             selectedCategory = comboBoxCategory.SelectedItem as Category;
             selectedSubCategory = comboBoxSubCategory.SelectedItem as Category;
-            comboBoxType.ItemsSource = GetSubCategories(GetCategories(), selectedSubCategory.Id);
+            comboBoxType.ItemsSource = GetSubCategories(GetCategories(), selectedSubCategory.Id); //KRASHAR NÄR MAN VÄLJER EN ANNAN HUVUDKATEGORI
+
+            //ändra label beroende på vad man väljer
+            if (selectedSubCategory.Id == 4 && selectedSubCategory.Id == 6 && selectedSubCategory.Id == 7)
+            {
+                labelValues.Content = "Antal";
+            }
+           else if (selectedSubCategory.Id == 5)
+            {
+                labelValues.Content = "Lufttemperatur";
+            }
+           else if (selectedSubCategory.Id == 12 && selectedSubCategory.Id == 13)
+            {
+                labelValues.Content = "Meter";
+            }
+            else if (selectedSubCategory.Id == 14)
+            {
+                labelValues.Content = "Cm";
+            }
+            else if (selectedSubCategory.Id >= 1 || selectedSubCategory.Id <=3)
+            {
+                labelValues.Content = "Antal";
+            }
+
         }
 
         private void comboBoxCountry_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -262,7 +285,7 @@ namespace AnkiOchAilesKlimatAPP
         private void listBoxMeasurements_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedInformationDisplay = listBoxMeasurements.SelectedItem as InformationDisplay;
-            string info = $"{selectedInformationDisplay.CountryName}\n{selectedInformationDisplay.AreaName}\n{selectedInformationDisplay.Latitude}\n{selectedInformationDisplay.Longitude}\n{selectedInformationDisplay.Category}\n{selectedInformationDisplay.Type} {selectedInformationDisplay.Value} {selectedInformationDisplay.Abbrevation}";
+            string info = $"Land: {selectedInformationDisplay.CountryName}\nOmråde: {selectedInformationDisplay.AreaName}\nLatitud: {selectedInformationDisplay.Latitude}\nLongitud: {selectedInformationDisplay.Longitude}\nKategori: {selectedInformationDisplay.Category}\nMätvärde: {selectedInformationDisplay.Type} {selectedInformationDisplay.Value} {selectedInformationDisplay.Abbrevation}";
             textBoxInformation.Text = info;
             textBoxInformation.Text = textBoxInformation.Text.Replace("\n", Environment.NewLine);
         }
