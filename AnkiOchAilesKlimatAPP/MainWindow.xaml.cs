@@ -41,6 +41,9 @@ namespace AnkiOchAilesKlimatAPP
             listBoxObservers.ItemsSource = GetObservers();
             comboBoxCountry.ItemsSource = GetCountries();
             comboBoxCategory.ItemsSource = GetMainCategories(GetCategories());
+            comboBoxCountry.SelectedIndex = 0;
+            comboBoxCategory.SelectedIndex = 0;
+
 
         }
 
@@ -109,21 +112,6 @@ namespace AnkiOchAilesKlimatAPP
 
         #region DELETEOBSERVER
 
-        //public void ObserverDeletePossible(IEnumerable<Observer> observers, int observerId)
-        //{
-        //    foreach (var observer in observers)
-        //    {
-        //        if (observer.Id == observerId)
-        //        {
-        //            MessageBox.Show($"Denna observatören har en eller flera registrerade observationer. Kan ej raderas.")
-        //        }
-        //        else
-        //        {
-        //        }
-        //    }
-        //
-        //}
-
 
 
 
@@ -183,6 +171,7 @@ namespace AnkiOchAilesKlimatAPP
         private void comboBoxCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedCategory = comboBoxCategory.SelectedItem as Category;
+            comboBoxSubCategory.SelectedIndex = 0;
             comboBoxSubCategory.ItemsSource = null;
             comboBoxSubCategory.ItemsSource = GetSubCategories(GetCategories(), selectedCategory.Id);
         }
@@ -193,6 +182,7 @@ namespace AnkiOchAilesKlimatAPP
             selectedSubCategory = comboBoxSubCategory.SelectedItem as Category;
             if(selectedSubCategory != null)
             {
+                comboBoxType.SelectedIndex = 0;
                 comboBoxType.ItemsSource = GetSubCategories(GetCategories(), selectedSubCategory.Id);
             }
         }
@@ -200,7 +190,9 @@ namespace AnkiOchAilesKlimatAPP
         private void comboBoxCountry_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedCountry = comboBoxCountry.SelectedItem as Country;
+            comboBoxArea.SelectedIndex = 0;
             comboBoxArea.ItemsSource = GetCountryArea(GetAreas(), selectedCountry.Id);
+            
         }
 
         private void buttonRegisterObservation_Click(object sender, RoutedEventArgs e)
@@ -285,12 +277,13 @@ namespace AnkiOchAilesKlimatAPP
         {
             selectedInformationDisplay = listBoxMeasurements.SelectedItem as InformationDisplay;
             int selectedItemIndex = listBoxMeasurements.SelectedIndex;
-            UpdateMeasurement(selectedInformationDisplay.Measurement_id, double.Parse(textBxValues.Text));
+            UpdateMeasurement(selectedInformationDisplay.Measurement_id, double.Parse(textBoxChangeValue.Text));
             listBoxMeasurements.ItemsSource = null;
             listBoxMeasurements.ItemsSource = GetInformation(selectedObservation.Id);
             listBoxMeasurements.SelectedIndex = selectedItemIndex;
             selectedInformationDisplay = listBoxMeasurements.SelectedItem as InformationDisplay;
             UpdateInformation(selectedInformationDisplay);
+            textBoxChangeValue.Clear();
         }
 
         public void UpdateInformation(InformationDisplay selectedInformationDisplay)

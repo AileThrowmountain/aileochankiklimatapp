@@ -12,37 +12,39 @@
         <TextBox x:Name="textBxRegisterLastname" HorizontalAlignment="Left" Margin="10,124,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144" Height="26"/>
         <Label x:Name="labelFirstname" Content="Förnamn" HorizontalAlignment="Left" Margin="12,36,0,0" VerticalAlignment="Top"/>
         <Label x:Name="labelLastname" Content="Efternamn" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="labelRegisterObserver" Content="REGISTRERA OBSERVATÖR" FontSize="15" FontFamily="tahoma" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label" Content="REGISTRERA/ÄNDRA OBSERVATION" FontSize="15" FontFamily="tahoma" HorizontalAlignment="Left" Margin="18,286,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="comboBoxCountry" HorizontalAlignment="Left" Margin="10,345,0,0" VerticalAlignment="Top" Width="200" SelectionChanged="comboBoxCountry_SelectionChanged"/>
-        <Label x:Name="labelCountry" Content="Välj land*" HorizontalAlignment="Left" Margin="12,319,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="comboBoxArea" HorizontalAlignment="Left" Margin="12,402,0,0" VerticalAlignment="Top" Width="198"/>
-        <Label x:Name="labelArea" Content="Område*" HorizontalAlignment="Left" Margin="10,376,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBxLatitude" HorizontalAlignment="Left" Margin="12,477,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
-        <TextBox x:Name="textBxLongitude" HorizontalAlignment="Left" Margin="116,477,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
-        <Label x:Name="labelLatitude" Content="Latitud" HorizontalAlignment="Left" Margin="12,446,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="labelLongitude" Content="Longitud" HorizontalAlignment="Left" Margin="116,446,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="comboBoxCategory" HorizontalAlignment="Left" Margin="244,345,0,0" VerticalAlignment="Top" Width="156" SelectionChanged="comboBoxCategory_SelectionChanged"/>
-        <ComboBox x:Name="comboBoxSubCategory" HorizontalAlignment="Left" Margin="244,402,0,0" VerticalAlignment="Top" Width="156" SelectionChanged="comboBoxSubCategory_SelectionChanged"/>
-        <Label x:Name="labelHeadCategory" Content="Huvudkategori*" HorizontalAlignment="Left" Margin="244,319,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.224,-0.144"/>
-        <Label x:Name="labelSubCategory" Content="Underkategori*" HorizontalAlignment="Left" Margin="247,376,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.38,2.592"/>
-        <ListBox x:Name="listBoxObservers" Margin="244,36,398,317" SelectionChanged="listBoxObservers_SelectionChanged"/>
-        <Label x:Name="labelObservers" Content="Observatörer" HorizontalAlignment="Left" Margin="290,10,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="listBoxObservation" Margin="443,36,199,317" SelectionChanged="listBoxObservation_SelectionChanged"/>
-        <Label x:Name="labelObservation" Content="Observationer" HorizontalAlignment="Left" Margin="486,10,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="labelDate" Content="Annat datum (YYYY-MM-DD)" FontStyle="Italic" HorizontalAlignment="Left" Margin="244,451,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkBoxToday" Content="Dagens datum" HorizontalAlignment="Left" Margin="244,434,0,0" VerticalAlignment="Top" Height="21" Width="103"/>
-        <Button x:Name="buttonRegisterObservation" Content="Lägg till" HorizontalAlignment="Left" Margin="427,471,0,0" VerticalAlignment="Top" Height="27" Width="120" Click="buttonRegisterObservation_Click"/>
-        <Button x:Name="buttonDeleteObserver" Content="Radera observatör" HorizontalAlignment="Left" Margin="244,241,0,0" VerticalAlignment="Top" Width="171" Click="buttonDeleteObserver_Click"/>
-        <Button x:Name="buttonChange" Content="Ändra" HorizontalAlignment="Left" Margin="636,352,0,0" VerticalAlignment="Top" Height="29" Width="142" Click="buttonChange_Click"/>
-        <Label x:Name="labelInfo" Content="Mätpunkter" HorizontalAlignment="Left" Margin="636,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBxValues" HorizontalAlignment="Left" Margin="427,402,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="22"/>
-        <Label x:Name="labelValues" Content="Värde*" HorizontalAlignment="Left" Margin="427,371,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="comboBoxType" HorizontalAlignment="Left" Margin="427,344,0,0" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="labelType" Content="Vinter/Sommarpäls" HorizontalAlignment="Left" Margin="427,313,0,0" VerticalAlignment="Top"/>
-        <DatePicker x:Name="observationDatePicker" HorizontalAlignment="Left" Margin="247,477,0,0" VerticalAlignment="Top" Width="153"/>
-        <ListBox x:Name="listBoxMeasurements" Margin="636,36,0,419" HorizontalAlignment="Left" Width="142" SelectionChanged="listBoxMeasurements_SelectionChanged"/>
-        <TextBox x:Name="textBoxInformation" HorizontalAlignment="Left" Margin="636,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Height="195"/>
+        <Label x:Name="labelRegisterObserver" Content="REGISTRERA OBSERVATÖR" FontSize="12" FontFamily="tahoma" HorizontalAlignment="Left" Margin="5,12,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label" Content="REGISTRERA OBSERVATION" FontSize="15" FontFamily="tahoma" HorizontalAlignment="Left" Margin="276,8,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboBoxCountry" HorizontalAlignment="Left" Margin="194,66,0,0" VerticalAlignment="Top" Width="152" SelectionChanged="comboBoxCountry_SelectionChanged"/>
+        <Label x:Name="labelCountry" Content="Land*" HorizontalAlignment="Left" Margin="194,36,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboBoxArea" HorizontalAlignment="Left" Margin="194,118,0,0" VerticalAlignment="Top" Width="154"/>
+        <Label x:Name="labelArea" Content="Område*" HorizontalAlignment="Left" Margin="192,92,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBxLatitude" HorizontalAlignment="Left" Margin="196,172,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
+        <TextBox x:Name="textBxLongitude" HorizontalAlignment="Left" Margin="196,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92"/>
+        <Label x:Name="labelLatitude" Content="Latitud" HorizontalAlignment="Left" Margin="192,146,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelLongitude" Content="Longitud" HorizontalAlignment="Left" Margin="194,192,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboBoxCategory" HorizontalAlignment="Left" Margin="373,66,0,0" VerticalAlignment="Top" Width="127" SelectionChanged="comboBoxCategory_SelectionChanged"/>
+        <ComboBox x:Name="comboBoxSubCategory" HorizontalAlignment="Left" Margin="373,118,0,0" VerticalAlignment="Top" Width="127" SelectionChanged="comboBoxSubCategory_SelectionChanged"/>
+        <Label x:Name="labelHeadCategory" Content="Huvudkategori*" HorizontalAlignment="Left" Margin="375,36,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.224,-0.144"/>
+        <Label x:Name="labelSubCategory" Content="Underkategori*" HorizontalAlignment="Left" Margin="373,92,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.38,2.592"/>
+        <ListBox x:Name="listBoxObservers" Margin="12,260,659,169" SelectionChanged="listBoxObservers_SelectionChanged"/>
+        <Label x:Name="labelObservers" Content="Observatörer" HorizontalAlignment="Left" Margin="43,227,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="listBoxObservation" Margin="653,45,26,384" SelectionChanged="listBoxObservation_SelectionChanged"/>
+        <Label x:Name="labelObservation" Content="Observationer" HorizontalAlignment="Left" Margin="678,12,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelDate" Content="Annat datum" FontStyle="Italic" HorizontalAlignment="Left" Margin="375,218,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBoxToday" Content="Dagens datum" HorizontalAlignment="Left" Margin="373,201,0,0" VerticalAlignment="Top" Height="22" Width="102"/>
+        <Button x:Name="buttonRegisterObservation" Content="Registrera" HorizontalAlignment="Left" Margin="523,93,0,0" VerticalAlignment="Top" Height="28" Width="92" Click="buttonRegisterObservation_Click"/>
+        <Button x:Name="buttonDeleteObserver" Content="Radera observatör" HorizontalAlignment="Left" Margin="12,379,0,0" VerticalAlignment="Top" Width="142" Click="buttonDeleteObserver_Click"/>
+        <Button x:Name="buttonChange" Content="Ändra värde" HorizontalAlignment="Left" Margin="649,478,0,0" VerticalAlignment="Top" Height="27" Width="138" Click="buttonChange_Click"/>
+        <Label x:Name="labelInfo" Content="Mätpunkter" HorizontalAlignment="Left" Margin="684,172,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBxValues" HorizontalAlignment="Left" Margin="523,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" Height="22"/>
+        <Label x:Name="labelValues" Content="Värde*" HorizontalAlignment="Left" Margin="533,36,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboBoxType" HorizontalAlignment="Left" Margin="373,170,0,0" VerticalAlignment="Top" Width="127"/>
+        <Label x:Name="labelType" Content="Vinter/Sommarpäls" HorizontalAlignment="Left" Margin="375,141,0,0" VerticalAlignment="Top"/>
+        <DatePicker x:Name="observationDatePicker" HorizontalAlignment="Left" Margin="376,244,0,0" VerticalAlignment="Top" Width="104"/>
+        <ListBox x:Name="listBoxMeasurements" Margin="648,212,0,243" HorizontalAlignment="Left" Width="139" SelectionChanged="listBoxMeasurements_SelectionChanged"/>
+        <TextBox x:Name="textBoxInformation" HorizontalAlignment="Left" Margin="649,335,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" Height="133"/>
+        <TextBox x:Name="textBoxChangeValue" HorizontalAlignment="Left" Margin="533,478,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="103" Height="27"/>
+        <Label x:Name="labelNewValue" Content="Nytt värde" HorizontalAlignment="Left" Margin="536,452,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
