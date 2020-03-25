@@ -37,7 +37,7 @@
         <Button x:Name="buttonChange" Content="Ändra" HorizontalAlignment="Left" Margin="636,352,0,0" VerticalAlignment="Top" Height="29" Width="142" Click="buttonChange_Click"/>
         <Label x:Name="labelInfo" Content="Mätpunkter" HorizontalAlignment="Left" Margin="636,10,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="textBxValues" HorizontalAlignment="Left" Margin="427,402,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="22"/>
-        <Label x:Name="labelValues" Content="Antal*" HorizontalAlignment="Left" Margin="427,371,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelValues" Content="Värde*" HorizontalAlignment="Left" Margin="427,371,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="comboBoxType" HorizontalAlignment="Left" Margin="427,344,0,0" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="labelType" Content="Vinter/Sommarpäls" HorizontalAlignment="Left" Margin="427,313,0,0" VerticalAlignment="Top"/>
         <DatePicker x:Name="observationDatePicker" HorizontalAlignment="Left" Margin="247,477,0,0" VerticalAlignment="Top" Width="153"/>

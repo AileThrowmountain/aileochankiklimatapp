@@ -746,11 +746,26 @@ namespace AnkiOchAilesKlimatAPP.Repositories
 
             using (var conn = new NpgsqlConnection(connectionString))
             {
-                using (var command = new NpgsqlCommand(stmt, conn))
+                conn.Open();
+                using (var trans = conn.BeginTransaction())
                 {
-                    conn.Open();
-                    command.Parameters.AddWithValue("id", id);
-                    command.ExecuteScalar();
+                    try
+                    {
+
+                        using (var command = new NpgsqlCommand(stmt, conn))
+                        {
+
+                            command.Parameters.AddWithValue("id", id);
+                            command.ExecuteScalar();
+                        }
+                        trans.Commit();
+                    }
+
+                    catch (PostgresException)
+                    {
+                        trans.Rollback();
+                        throw;
+                    }
                 }
             }
         }

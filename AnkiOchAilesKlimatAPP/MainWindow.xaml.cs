@@ -1,4 +1,5 @@
 ﻿using AnkiOchAilesKlimatAPP.Models;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -162,9 +163,20 @@ namespace AnkiOchAilesKlimatAPP
         private void buttonDeleteObserver_Click(object sender, RoutedEventArgs e)
         {
 
-            selectedObserver = listBoxObservers.SelectedItem as Observer;
-            DeleteObserver(selectedObserver.Id);
-            UpdateObserverList();
+            try
+            {
+                selectedObserver = listBoxObservers.SelectedItem as Observer;
+                DeleteObserver(selectedObserver.Id);
+                UpdateObserverList();
+            }
+            catch (PostgresException error)
+            {
+                if (error.SqlState == "23503")
+                {
+                    MessageBox.Show("Observatören har en eller flera registrerade observationer. Kan ej raderas.", "Felmeddelande");
+                }
+
+            }
 
         }
 
@@ -182,27 +194,6 @@ namespace AnkiOchAilesKlimatAPP
             if(selectedSubCategory != null)
             {
                 comboBoxType.ItemsSource = GetSubCategories(GetCategories(), selectedSubCategory.Id);
-            
-             //KRASHAR NÄR MAN VÄLJER EN ANNAN HUVUDKATEGORI
-
-
-            //ändra label beroende på vad man väljer
-            if (selectedSubCategory.Id == 4 && selectedSubCategory.Id == 6 && selectedSubCategory.Id == 7)
-            {
-                labelValues.Content = "Antal";
-            }
-           else if (selectedSubCategory.Id == 5)
-            {
-                labelValues.Content = "Lufttemperatur";
-            }
-           else if (selectedSubCategory.Id == 12 && selectedSubCategory.Id == 13)
-            {
-                labelValues.Content = "Meter";
-            }
-            else if (selectedSubCategory.Id == 14)
-            {
-                labelValues.Content = "Cm";
-            }
             }
         }
 
@@ -270,12 +261,7 @@ namespace AnkiOchAilesKlimatAPP
             AddMeasurement(value);
             UpdateObservationList();
 
-            //UpdateObserverationList(); // har ingen sån metod än
-
         }
-
-
-
 
         private void listBoxObservers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -291,22 +277,34 @@ namespace AnkiOchAilesKlimatAPP
 
         private void listBoxMeasurements_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UpdateInformation();
+            selectedInformationDisplay = listBoxMeasurements.SelectedItem as InformationDisplay;
+            UpdateInformation(selectedInformationDisplay);
         }
 
         private void buttonChange_Click(object sender, RoutedEventArgs e)
         {
-
+            selectedInformationDisplay = listBoxMeasurements.SelectedItem as InformationDisplay;
+            int selectedItemIndex = listBoxMeasurements.SelectedIndex;
             UpdateMeasurement(selectedInformationDisplay.Measurement_id, double.Parse(textBxValues.Text));
-            UpdateInformation();
+            listBoxMeasurements.ItemsSource = null;
+            listBoxMeasurements.ItemsSource = GetInformation(selectedObservation.Id);
+            listBoxMeasurements.SelectedIndex = selectedItemIndex;
+            selectedInformationDisplay = listBoxMeasurements.SelectedItem as InformationDisplay;
+            UpdateInformation(selectedInformationDisplay);
         }
 
-       public void UpdateInformation() 
+        public void UpdateInformation(InformationDisplay selectedInformationDisplay)
         {
-            selectedInformationDisplay = listBoxMeasurements.SelectedItem as InformationDisplay;
-            string info = $"Land: {selectedInformationDisplay.CountryName}\nOmråde: {selectedInformationDisplay.AreaName}\nLatitud: {selectedInformationDisplay.Latitude}\nLongitud: {selectedInformationDisplay.Longitude}\nKategori: {selectedInformationDisplay.Category}\nMätvärde: {selectedInformationDisplay.Type} {selectedInformationDisplay.Value} {selectedInformationDisplay.Abbrevation}";
-            textBoxInformation.Text = info;
-            textBoxInformation.Text = textBoxInformation.Text.Replace("\n", Environment.NewLine);
+            if (selectedInformationDisplay == null)
+            {
+                textBoxInformation.Text = "";
+            }
+            else
+            {
+                string info = $"Land: {selectedInformationDisplay.CountryName}\nOmråde: {selectedInformationDisplay.AreaName}\nLatitud: {selectedInformationDisplay.Latitude}\nLongitud: {selectedInformationDisplay.Longitude}\nKategori: {selectedInformationDisplay.Category}\nMätvärde: {selectedInformationDisplay.Type} {selectedInformationDisplay.Value} {selectedInformationDisplay.Abbrevation}";
+                textBoxInformation.Text = info;
+                textBoxInformation.Text = textBoxInformation.Text.Replace("\n", Environment.NewLine);
+            }
 
         }
 
