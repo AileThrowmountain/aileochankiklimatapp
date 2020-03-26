@@ -32,8 +32,6 @@ namespace AnkiOchAilesKlimatAPP
         InformationDisplay selectedInformationDisplay;
 
 
-
-
         public MainWindow()
         {
             InitializeComponent();
@@ -261,10 +259,10 @@ namespace AnkiOchAilesKlimatAPP
         }
 
         private void listBoxObservation_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {   
-            if(selectedObservation != null) //om den inte är null så ska den uppdatera informationen, annars skiter den i det
+        {
+            selectedObservation = listBoxObservation.SelectedItem as Observation;
+            if (selectedObservation != null) //om den inte är null så ska den uppdatera informationen, annars skiter den i det
             {
-                selectedObservation = listBoxObservation.SelectedItem as Observation;
                 listBoxMeasurements.ItemsSource = GetInformation(selectedObservation.Id);
             } 
         }
@@ -272,7 +270,10 @@ namespace AnkiOchAilesKlimatAPP
         private void listBoxMeasurements_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedInformationDisplay = listBoxMeasurements.SelectedItem as InformationDisplay;
-            UpdateInformation(selectedInformationDisplay.Measurement_id);
+            if (selectedInformationDisplay != null)
+            {
+                UpdateInformation(selectedInformationDisplay.Measurement_id);
+            }
         }
 
         private void buttonChange_Click(object sender, RoutedEventArgs e)

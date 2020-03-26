@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AnkiOchAilesKlimatAPP.Models
 {
-   public class Measurement
+    public class Measurement
     {
         public int Id { get; set; }
         public double Value { get; set; }

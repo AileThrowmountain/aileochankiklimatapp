@@ -12,10 +12,6 @@ namespace AnkiOchAilesKlimatAPP.Repositories
     {
         private static string connectionString = ConfigurationManager.ConnectionStrings["dbAnkiochAile"].ConnectionString;
 
-      
-
-
-         
         #region CREATE
 
         //--------------------------OBSERVER-----------------------------//
