@@ -223,24 +223,25 @@ namespace AnkiOchAilesKlimatAPP
             {
                 textBxValues.Text = "0";
             }
-
+            // Skapa ny geolocation
             var geoLoc = new Geolocation
             {
                 Latitude = float.Parse(textBxLatitude.Text),
                 Longitude = float.Parse(textBxLongitude.Text),
                 AreaId = chosenArea.Id
             };
-
+            
             var geolocationId = AddGeolocation(geoLoc);
-            // Create new geolocation
+           
 
             var newObservation = new Observation()
             {
-                Date = checkBoxToday.IsChecked.GetValueOrDefault() ? DateTime.Now : observationDatePicker.SelectedDate.GetValueOrDefault(), //om checkboxen är checkad så är det dagens datum, annars det som vaäljs
+                //om checkboxen är checkad så är det dagens datum, annars det som väljs
+                Date = checkBoxToday.IsChecked.GetValueOrDefault() ? DateTime.Now : observationDatePicker.SelectedDate.GetValueOrDefault(), 
                 ObserverId = selectedObserver.Id,
                 GeolocationId = geolocationId
             };
-
+            // Skapa ny observation
             var observationId = AddObservation(newObservation);
 
             var value = new Measurement
@@ -248,11 +249,10 @@ namespace AnkiOchAilesKlimatAPP
                 Value = double.Parse(textBxValues.Text),
                 ObservationId = observationId,
                 CategoryId = theChosenOneCategory.Id
-
             };
+
             AddMeasurement(value);
             UpdateObservationList();
-
         }
 
         private void listBoxObservers_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -261,10 +261,12 @@ namespace AnkiOchAilesKlimatAPP
         }
 
         private void listBoxObservation_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            selectedObservation = listBoxObservation.SelectedItem as Observation;
-            listBoxMeasurements.ItemsSource = null;
-            listBoxMeasurements.ItemsSource = GetInformation(selectedObservation.Id);
+        {   
+            if(selectedObservation != null) //om den inte är null så ska den uppdatera informationen, annars skiter den i det
+            {
+                selectedObservation = listBoxObservation.SelectedItem as Observation;
+                listBoxMeasurements.ItemsSource = GetInformation(selectedObservation.Id);
+            } 
         }
 
         private void listBoxMeasurements_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -274,18 +276,47 @@ namespace AnkiOchAilesKlimatAPP
         }
 
         private void buttonChange_Click(object sender, RoutedEventArgs e)
-        {
+        { // Ändra värde mätpunkt
             selectedInformationDisplay = listBoxMeasurements.SelectedItem as InformationDisplay;
             UpdateMeasurement(selectedInformationDisplay.Measurement_id, double.Parse(textBoxChangeValue.Text));
             UpdateInformation(selectedInformationDisplay.Measurement_id);
         }
 
-        public void UpdateInformation(int measurement_id)
+        public void UpdateInformation(int measurement_id) // Metod uppdatera information (measurement_id) för ändring av mätpunkt.
         {
             InformationDisplay informationDisplay = GetUpdatedInformation(measurement_id);
             string info = $"Land: {informationDisplay.CountryName}\nOmråde: {informationDisplay.AreaName}\nLatitud: {informationDisplay.Latitude}\nLongitud: {informationDisplay.Longitude}\nKategori: {informationDisplay.Category}\nMätvärde: {informationDisplay.Type} {informationDisplay.Value} {informationDisplay.Abbrevation}";
             textBoxInformation.Text = info;
             textBoxInformation.Text = textBoxInformation.Text.Replace("\n", Environment.NewLine);
+        }
+
+        private void buttonAddMeasurement_Click(object sender, RoutedEventArgs e)
+        {
+            
+            var subCategorin = comboBoxSubCategory.SelectedItem as Category;
+            var typeCategorin = comboBoxType.SelectedItem as Category;
+
+            Category theChosenOneCategory;
+            //om comboxen med vinter/sommardräkt är tom så ska underkategorin bli den valda kategorin
+            //sen ett villkor för att inte få null-error vid longitut och latitud
+            if (typeCategorin == null)
+            {
+                theChosenOneCategory = subCategorin;
+            }
+            else
+            {
+                theChosenOneCategory = typeCategorin;
+            }
+
+            var value = new Measurement
+            {
+                Value = double.Parse(textBxValues.Text),
+                ObservationId = selectedObservation.Id,
+                CategoryId = theChosenOneCategory.Id
+            };
+
+            AddMeasurement(value);
+            listBoxMeasurements.ItemsSource = GetInformation(selectedObservation.Id);
         }
     }
 

@@ -35,16 +35,17 @@
         <Button x:Name="buttonRegisterObservation" Content="Registrera" HorizontalAlignment="Left" Margin="523,93,0,0" VerticalAlignment="Top" Height="28" Width="92" Click="buttonRegisterObservation_Click"/>
         <Button x:Name="buttonDeleteObserver" Content="Radera observatör" HorizontalAlignment="Left" Margin="12,379,0,0" VerticalAlignment="Top" Width="142" Click="buttonDeleteObserver_Click"/>
         <Button x:Name="buttonChange" Content="Ändra värde" HorizontalAlignment="Left" Margin="649,478,0,0" VerticalAlignment="Top" Height="27" Width="138" Click="buttonChange_Click"/>
-        <Label x:Name="labelInfo" Content="Mätpunkter" HorizontalAlignment="Left" Margin="684,172,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelInfo" Content="Mätpunkter" HorizontalAlignment="Left" Margin="684,201,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="textBxValues" HorizontalAlignment="Left" Margin="523,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" Height="22"/>
-        <Label x:Name="labelValues" Content="Värde*" HorizontalAlignment="Left" Margin="533,36,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="comboBoxType" HorizontalAlignment="Left" Margin="373,170,0,0" VerticalAlignment="Top" Width="127"/>
-        <Label x:Name="labelType" Content="Vinter/Sommarpäls" HorizontalAlignment="Left" Margin="375,141,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelValues" Content="Värde*" HorizontalAlignment="Left" Margin="524,36,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboBoxType" HorizontalAlignment="Left" Margin="364,170,0,0" VerticalAlignment="Top" Width="146"/>
+        <Label x:Name="labelType" Content="Vinter/Sommardräkt" HorizontalAlignment="Left" Margin="375,141,0,0" VerticalAlignment="Top"/>
         <DatePicker x:Name="observationDatePicker" HorizontalAlignment="Left" Margin="376,244,0,0" VerticalAlignment="Top" Width="104"/>
-        <ListBox x:Name="listBoxMeasurements" Margin="648,212,0,243" HorizontalAlignment="Left" Width="139" SelectionChanged="listBoxMeasurements_SelectionChanged"/>
+        <ListBox x:Name="listBoxMeasurements" Margin="648,231,0,224" HorizontalAlignment="Left" Width="139" SelectionChanged="listBoxMeasurements_SelectionChanged"/>
         <TextBox x:Name="textBoxInformation" HorizontalAlignment="Left" Margin="649,335,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" Height="133"/>
         <TextBox x:Name="textBoxChangeValue" HorizontalAlignment="Left" Margin="533,478,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="103" Height="27"/>
         <Label x:Name="labelNewValue" Content="Nytt värde" HorizontalAlignment="Left" Margin="536,452,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="buttonAddMeasurement" Content="Lägg till mätpunkt" HorizontalAlignment="Left" Margin="656,164,0,0" VerticalAlignment="Top" Height="25" Width="131" Click="buttonAddMeasurement_Click"/>
 
     </Grid>
 </Window>

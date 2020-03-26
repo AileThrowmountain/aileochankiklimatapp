@@ -17,7 +17,8 @@ namespace AnkiOchAilesKlimatAPP.Models
 
         public override string ToString() //ändrat strängens utseende med en basmetod 
         {
-            return $"{Date}";
+            return $"{(Date.ToString("yyyy/MM/dd"))}";
         }
     }
 }
+ 

@@ -12,10 +12,10 @@ namespace AnkiOchAilesKlimatAPP.Repositories
     {
         private static string connectionString = ConfigurationManager.ConnectionStrings["dbAnkiochAile"].ConnectionString;
 
-        #region REFUSETRANSACTION
+      
 
 
-        #endregion  
+         
         #region CREATE
 
         //--------------------------OBSERVER-----------------------------//
@@ -183,41 +183,41 @@ namespace AnkiOchAilesKlimatAPP.Repositories
         //--------------------------OBSERVER-----------------------------//
 
         //--------------------------OBSERVATION-----------------------------//
-        public static Observation GetObservation(int id)
-        {
-            string stmt = "select id, obs_date, observer_id, geolocation_id from observation where id=@id";
+        //public static Observation GetObservation(int id)
+        //{
+        //    string stmt = "select id, obs_date, observer_id, geolocation_id from observation where id=@id";
 
-            using (var conn = new NpgsqlConnection(connectionString))
-            {
-                Observation observation = null;
-                conn.Open();
-                using (var command = new NpgsqlCommand(stmt, conn))
-                {
-                    command.Parameters.AddWithValue("id", id);
-                    using (var reader = command.ExecuteReader())
-                    {
+        //    using (var conn = new NpgsqlConnection(connectionString))
+        //    {
+        //        Observation observation = null;
+        //        conn.Open();
+        //        using (var command = new NpgsqlCommand(stmt, conn))
+        //        {
+        //            command.Parameters.AddWithValue("id", id);
+        //            using (var reader = command.ExecuteReader())
+        //            {
 
-                        while (reader.Read())
-                        {
-                            observation = new Observation
-                            {
+        //                while (reader.Read())
+        //                {
+        //                    observation = new Observation
+        //                    {
 
-                                Id = (int)reader["id"],
-                                Date = (DateTime)reader["obs_date"],
-                                ObserverId = (int)reader["observer_id"],
-                                GeolocationId = (int)reader["geolocation_id"]
+        //                        Id = (int)reader["id"],
+        //                        Date = (DateTime)reader["obs_date"],
+        //                        ObserverId = (int)reader["observer_id"],
+        //                        GeolocationId = (int)reader["geolocation_id"]
 
-                            };
+        //                    };
 
-                        }
+        //                }
 
-                    }
-                }
-                return observation;
+        //            }
+        //        }
+        //        return observation;
 
-            }
+        //    }
 
-        }
+        //}
 
         public static IEnumerable<Observation> GetObservations()
         {
