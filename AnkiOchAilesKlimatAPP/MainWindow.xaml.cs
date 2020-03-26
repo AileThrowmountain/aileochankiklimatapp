@@ -21,7 +21,7 @@ namespace AnkiOchAilesKlimatAPP
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window //skapar fields
     {
 
         Observer selectedObserver;
@@ -38,12 +38,12 @@ namespace AnkiOchAilesKlimatAPP
         {
             InitializeComponent();
             listBoxObservers.ItemsSource = null;
-            listBoxObservers.ItemsSource = GetObservers();
-            comboBoxCountry.ItemsSource = GetCountries();
-            comboBoxCategory.ItemsSource = GetMainCategories(GetCategories());
+            listBoxObservers.ItemsSource = GetObservers(); //alla klimatobservatörer ska visas direkt då vi startar applikationen
+            comboBoxCountry.ItemsSource = GetCountries(); //tillkallar landen till comboboxen 
+            comboBoxCategory.ItemsSource = GetMainCategories(GetCategories()); //tillkallar huvudkategori till comboboxen
             comboBoxCountry.SelectedIndex = 0;
             comboBoxCategory.SelectedIndex = 0;
-
+            //sätter att första indexet i land- och kategori listan ska visas så att det inte råkar bli null-error om man glömmer
 
         }
 
@@ -61,15 +61,15 @@ namespace AnkiOchAilesKlimatAPP
 
         }
         #region MAINCATEGORYMETOD
-        public List<Category> GetMainCategories(IEnumerable<Category> categories)
+        public List<Category> GetMainCategories(IEnumerable<Category> categories) //en metod för att leta fram huvudkategorierna
         {
             List<Category> mainCategories = new List<Category>();
 
             foreach (var item in categories)
             {
-                if (item.BaseCategoryId == 0)
+                if (item.BaseCategoryId == 0) //huvudkategorierna är nullad på baskategoriId, så därför ska den söka efter de objekt i listan med baskategoriId noll
                 {
-                    mainCategories.Add(item);
+                    mainCategories.Add(item); // lägg till
                 }
             }
             return mainCategories;
@@ -77,15 +77,15 @@ namespace AnkiOchAilesKlimatAPP
         #endregion
 
         #region SUBCATEGORY
-        public List<Category> GetSubCategories(IEnumerable<Category> categories, int mainCategory)
+        public List<Category> GetSubCategories(IEnumerable<Category> categories, int mainCategory) //en metod för att leta fram underkategorier från kategorier
         {
             List<Category> subCategories = new List<Category>();
 
             foreach (var item in categories)
             {
-                if (item.BaseCategoryId == mainCategory)
+                if (item.BaseCategoryId == mainCategory) //om bas-id'et är kopplat till huvudkategorierna
                 {
-                    subCategories.Add(item);
+                    subCategories.Add(item); //lägg till
                 }
             }
             return subCategories;
@@ -94,15 +94,15 @@ namespace AnkiOchAilesKlimatAPP
 
         #region GETCOUNTRYAREA
 
-        public List<Area> GetCountryArea(IEnumerable<Area> areas, int countryId)
+        public List<Area> GetCountryArea(IEnumerable<Area> areas, int countryId) //en metod för att koppla varje område till rätt land
         {
             List<Area> getArea = new List<Area>();
 
             foreach (var item in areas)
             {
-                if (item.CountryId == countryId)
+                if (item.CountryId == countryId) //om id'et på området är kopplat till samma id som landet har
                 {
-                    getArea.Add(item);
+                    getArea.Add(item); //lägg till
                 }
             }
             return getArea;
@@ -110,24 +110,16 @@ namespace AnkiOchAilesKlimatAPP
 
         #endregion
 
-        #region DELETEOBSERVER
-
-
-
-
-        #endregion
-
-
         #region GETOBSERVATIONDATES
-        public List<Observation> GetObservationDates(IEnumerable<Observation> observations, int observerId)
+        public List<Observation> GetObservationDates(IEnumerable<Observation> observations, int observerId) //metod för att få fram rätt observation till rätt observatör
         {
             List<Observation> observationDates = new List<Observation>();
 
             foreach (var observation in observations)
             {
-                if (observation.ObserverId == observerId)
+                if (observation.ObserverId == observerId) //om observationen i listan har samma observerId som observatören vi valt
                 {
-                    observationDates.Add(observation);
+                    observationDates.Add(observation); // lägg till i listan
                 }
             }
             return observationDates;
@@ -135,21 +127,26 @@ namespace AnkiOchAilesKlimatAPP
 
 
         #endregion
+
+        #region UPDATELISTS
         public void UpdateObserverList() //uppdaterar Listboxen med observatörer
         {
             listBoxObservers.ItemsSource = null;
             listBoxObservers.ItemsSource = GetObservers();
         }
-        public void UpdateObservationList() //uppdaterar Listboxen med observatörer
+        public void UpdateObservationList() //uppdaterar Listboxen med observationer
         {
             selectedObserver = listBoxObservers.SelectedItem as Observer;
             listBoxObservation.ItemsSource = null;
             listBoxObservation.ItemsSource = GetObservationDates(GetObservations(), selectedObserver.Id);
         }
 
+        #endregion
+
+        #region DELETEOBSERVER
 
         private void buttonDeleteObserver_Click(object sender, RoutedEventArgs e)
-        {
+        { //metod för att ta bort observatör men om detta inte går (pga restricted inställning) få ett felmeddelande
 
             try
             {
@@ -167,20 +164,22 @@ namespace AnkiOchAilesKlimatAPP
             }
 
         }
-
+        #endregion
         private void comboBoxCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedCategory = comboBoxCategory.SelectedItem as Category;
-            comboBoxSubCategory.SelectedIndex = 0;
+            comboBoxSubCategory.SelectedIndex = 0; //sätter första underkategorin i listan att visas så det inte råkar bli null-error om man glömt välja
             comboBoxSubCategory.ItemsSource = null;
-            comboBoxSubCategory.ItemsSource = GetSubCategories(GetCategories(), selectedCategory.Id);
+            comboBoxSubCategory.ItemsSource = GetSubCategories(GetCategories(), selectedCategory.Id); //kallar in GetCategories i metoden för att det är listan den ska söka igenom
         }
 
         private void comboBoxSubCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedCategory = comboBoxCategory.SelectedItem as Category;
             selectedSubCategory = comboBoxSubCategory.SelectedItem as Category;
-            if(selectedSubCategory != null)
+
+            // Om den valda underkategorin skiljer sig från null så sätts selectedindex till 0, alltså första i listan.
+            if (selectedSubCategory != null)
             {
                 comboBoxType.SelectedIndex = 0;
                 comboBoxType.ItemsSource = GetSubCategories(GetCategories(), selectedSubCategory.Id);
@@ -190,20 +189,22 @@ namespace AnkiOchAilesKlimatAPP
         private void comboBoxCountry_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedCountry = comboBoxCountry.SelectedItem as Country;
-            comboBoxArea.SelectedIndex = 0;
-            comboBoxArea.ItemsSource = GetCountryArea(GetAreas(), selectedCountry.Id);
-            
+            comboBoxArea.SelectedIndex = 0; //sätter första området i listan att visas
+            comboBoxArea.ItemsSource = GetCountryArea(GetAreas(), selectedCountry.Id);  //kallar in GetAreas i metoden för att det är listan den ska söka igenom för att hitta rätt område
         }
+
+
 
         private void buttonRegisterObservation_Click(object sender, RoutedEventArgs e)
         {
-            selectedObserver = listBoxObservers.SelectedItem as Observer;
+            selectedObserver = listBoxObservers.SelectedItem as Observer; 
             var subCategorin = comboBoxSubCategory.SelectedItem as Category;
             var typeCategorin = comboBoxType.SelectedItem as Category;
             var chosenArea = comboBoxArea.SelectedItem as Area;
 
             Category theChosenOneCategory;
-
+            //om comboxen med vinter/sommardräkt är tom så ska underkategorin bli den valda kategorin
+            //sen ett villkor för att inte få null-error vid longitut och latitud
             if (typeCategorin == null)
             {
                 theChosenOneCategory = subCategorin;
@@ -212,7 +213,7 @@ namespace AnkiOchAilesKlimatAPP
             {
                 theChosenOneCategory = typeCategorin;
             }
-
+            
             if (textBxLatitude.Text == "" || textBxLongitude.Text == "")
             {
                 textBxLatitude.Text = "0";
@@ -223,7 +224,7 @@ namespace AnkiOchAilesKlimatAPP
                 textBxValues.Text = "0";
             }
 
-            var geoLoc = new Geolocation 
+            var geoLoc = new Geolocation
             {
                 Latitude = float.Parse(textBxLatitude.Text),
                 Longitude = float.Parse(textBxLongitude.Text),
@@ -233,9 +234,8 @@ namespace AnkiOchAilesKlimatAPP
             var geolocationId = AddGeolocation(geoLoc);
             // Create new geolocation
 
-            var newObservation = new Observation() //tjorvar fixa imorgon
+            var newObservation = new Observation()
             {
-
                 Date = checkBoxToday.IsChecked.GetValueOrDefault() ? DateTime.Now : observationDatePicker.SelectedDate.GetValueOrDefault(), //om checkboxen är checkad så är det dagens datum, annars det som vaäljs
                 ObserverId = selectedObserver.Id,
                 GeolocationId = geolocationId
@@ -270,40 +270,25 @@ namespace AnkiOchAilesKlimatAPP
         private void listBoxMeasurements_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedInformationDisplay = listBoxMeasurements.SelectedItem as InformationDisplay;
-            UpdateInformation(selectedInformationDisplay);
+            UpdateInformation(selectedInformationDisplay.Measurement_id);
         }
 
         private void buttonChange_Click(object sender, RoutedEventArgs e)
         {
             selectedInformationDisplay = listBoxMeasurements.SelectedItem as InformationDisplay;
-            int selectedItemIndex = listBoxMeasurements.SelectedIndex;
             UpdateMeasurement(selectedInformationDisplay.Measurement_id, double.Parse(textBoxChangeValue.Text));
-            listBoxMeasurements.ItemsSource = null;
-            listBoxMeasurements.ItemsSource = GetInformation(selectedObservation.Id);
-            listBoxMeasurements.SelectedIndex = selectedItemIndex;
-            selectedInformationDisplay = listBoxMeasurements.SelectedItem as InformationDisplay;
-            UpdateInformation(selectedInformationDisplay);
-            textBoxChangeValue.Clear();
+            UpdateInformation(selectedInformationDisplay.Measurement_id);
         }
 
-        public void UpdateInformation(InformationDisplay selectedInformationDisplay)
+        public void UpdateInformation(int measurement_id)
         {
-            if (selectedInformationDisplay == null)
-            {
-                textBoxInformation.Text = "";
-            }
-            else
-            {
-                string info = $"Land: {selectedInformationDisplay.CountryName}\nOmråde: {selectedInformationDisplay.AreaName}\nLatitud: {selectedInformationDisplay.Latitude}\nLongitud: {selectedInformationDisplay.Longitude}\nKategori: {selectedInformationDisplay.Category}\nMätvärde: {selectedInformationDisplay.Type} {selectedInformationDisplay.Value} {selectedInformationDisplay.Abbrevation}";
-                textBoxInformation.Text = info;
-                textBoxInformation.Text = textBoxInformation.Text.Replace("\n", Environment.NewLine);
-            }
-
+            InformationDisplay informationDisplay = GetUpdatedInformation(measurement_id);
+            string info = $"Land: {informationDisplay.CountryName}\nOmråde: {informationDisplay.AreaName}\nLatitud: {informationDisplay.Latitude}\nLongitud: {informationDisplay.Longitude}\nKategori: {informationDisplay.Category}\nMätvärde: {informationDisplay.Type} {informationDisplay.Value} {informationDisplay.Abbrevation}";
+            textBoxInformation.Text = info;
+            textBoxInformation.Text = textBoxInformation.Text.Replace("\n", Environment.NewLine);
         }
-
-
     }
 
-
 }
+
 

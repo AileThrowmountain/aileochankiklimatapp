@@ -638,10 +638,10 @@ namespace AnkiOchAilesKlimatAPP.Repositories
                                 Date = (DateTime)reader["obs_date"],
                                 Value = (double)reader["value"],
                                 Measurement_id = (int)reader["id"],
-                                Abbrevation=(string)reader["abbreviation"],
+                                Abbrevation = (string)reader["abbreviation"],
                                 Type = (string)reader["type"],
 
-                                
+
                             };
                             informationDisplays.Add(informationDisplay);
 
@@ -654,7 +654,67 @@ namespace AnkiOchAilesKlimatAPP.Repositories
             }
 
         }
+        public static InformationDisplay GetUpdatedInformation(int measurement_id)
+        {
+            string stmt = $"select country.country, area.area_name, geolocation.latitude, geolocation.longitude, category.name, category.basecategory_id, observation.obs_date, measurement.value, unit.type, unit.abbreviation, measurement.id " +
+                $"from observation " +
+                $"inner join observer " +
+                $"on observation.observer_id = observer.id " +
+                $"inner join geolocation " +
+                $"on observation.geolocation_id = geolocation.id " +
+                $"inner join area " +
+                $"on geolocation.area_id = area.id " +
+                $"inner join country " +
+                $"on area.country_id = country.id " +
+                $"inner join measurement " +
+                $"on measurement.observation_id = observation.id " +
+                $"inner join category " +
+                $"on measurement.category_id = category.id " +
+                $"inner join unit " +
+                $"on unit.id = category.unit_id " +
+                $"where measurement.id = @measurement_id";
 
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                InformationDisplay informationDisplay = null;
+
+                conn.Open();
+                using (var command = new NpgsqlCommand(stmt, conn))
+                {
+                    command.Parameters.AddWithValue("measurement_id", measurement_id);
+                    using (var reader = command.ExecuteReader())
+                    {
+
+                        while (reader.Read())
+                        {
+                            informationDisplay = new InformationDisplay
+                            {
+                                CountryName = (string)reader["country"],
+                                AreaName = (string)reader["area_name"],
+                                Latitude = (double)reader["latitude"],
+                                Longitude = (double)reader["longitude"],
+                                Category = (string)reader["name"],
+                                BaseCategory = (int)reader["basecategory_id"],
+                                Date = (DateTime)reader["obs_date"],
+                                Value = (double)reader["value"],
+                                Measurement_id = (int)reader["id"],
+                                Abbrevation = (string)reader["abbreviation"],
+                                Type = (string)reader["type"],
+
+
+                            };
+
+
+                        }
+                        return informationDisplay;
+
+                    }
+                }
+
+
+            }
+
+        }
 
 
 
