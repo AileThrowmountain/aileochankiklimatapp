@@ -21,7 +21,7 @@ namespace AnkiOchAilesKlimatAPP
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window //skapar fields
+    public partial class MainWindow : Window //skapar variabler
     {
 
         Observer selectedObserver;
@@ -195,8 +195,6 @@ namespace AnkiOchAilesKlimatAPP
             comboBoxArea.SelectedIndex = 0; //sätter första området i listan att visas
             comboBoxArea.ItemsSource = GetCountryArea(GetAreas(), selectedCountry.Id);  //kallar in GetAreas i metoden för att det är listan den ska söka igenom för att hitta rätt område
         }
-
-
 
         private void buttonRegisterObservation_Click(object sender, RoutedEventArgs e)
         {
