@@ -136,7 +136,12 @@ namespace AnkiOchAilesKlimatAPP
         {
             selectedObserver = listBoxObservers.SelectedItem as Observer;
             listBoxObservation.ItemsSource = null;
-            listBoxObservation.ItemsSource = GetObservationDates(GetObservations(), selectedObserver.Id);
+            if (selectedObserver != null)
+            {
+                listBoxObservation.ItemsSource = GetObservationDates(GetObservations(), selectedObserver.Id);
+            }
+           
+
         }
 
         #endregion

@@ -42,10 +42,10 @@
         <Label x:Name="labelType" Content="Vinter/Sommardräkt" HorizontalAlignment="Left" Margin="375,141,0,0" VerticalAlignment="Top"/>
         <DatePicker x:Name="observationDatePicker" HorizontalAlignment="Left" Margin="376,244,0,0" VerticalAlignment="Top" Width="104"/>
         <ListBox x:Name="listBoxMeasurements" Margin="648,231,0,224" HorizontalAlignment="Left" Width="139" SelectionChanged="listBoxMeasurements_SelectionChanged"/>
-        <TextBox x:Name="textBoxInformation" HorizontalAlignment="Left" Margin="649,335,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" Height="133"/>
+        <TextBox x:Name="textBoxInformation" HorizontalAlignment="Left" Margin="649,335,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" Height="133" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         <TextBox x:Name="textBoxChangeValue" HorizontalAlignment="Left" Margin="533,478,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="103" Height="27"/>
         <Label x:Name="labelNewValue" Content="Nytt värde" HorizontalAlignment="Left" Margin="536,452,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="buttonAddMeasurement" Content="Lägg till mätpunkt" HorizontalAlignment="Left" Margin="656,164,0,0" VerticalAlignment="Top" Height="25" Width="131" Click="buttonAddMeasurement_Click"/>
+        <Button x:Name="buttonAddMeasurement" Content="Lägg till mätpunkt" HorizontalAlignment="Left" Margin="653,164,0,0" VerticalAlignment="Top" Height="25" Width="134" Click="buttonAddMeasurement_Click"/>
 
     </Grid>
 </Window>
